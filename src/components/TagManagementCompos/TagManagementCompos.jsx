@@ -217,20 +217,37 @@ export function TagManagementCompos() {
         onClose={handleTagMenuClose}
         PaperProps={{
           sx: {
-            bgcolor: "#212121",
+            bgcolor: "black",
             color: "white",
             boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.14)",
-            width: "150px",
+            width: "100px",
+            ml: -8,
+            mt: -2,
           },
         }}
       >
-        <MenuItem onClick={handleEditClick} sx={{ fontSize: "14px" }}>
+        <MenuItem
+          onClick={handleEditClick}
+          sx={{
+            fontSize: "14px",
+            "&:hover": {
+              backgroundColor: "#424242",
+            },
+          }}
+        >
           <EditIcon fontSize="small" sx={{ mr: 1 }} />
           Edit
         </MenuItem>
+
         <MenuItem
           onClick={handleDeleteClick}
-          sx={{ fontSize: "14px", color: "#ff5252" }}
+          sx={{
+            fontSize: "14px",
+            color: "#ff5252",
+            "&:hover": {
+              backgroundColor: "#424242", 
+            },
+          }}
         >
           <DeleteIcon fontSize="small" sx={{ mr: 1 }} />
           Delete
