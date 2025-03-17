@@ -134,11 +134,11 @@ const WeekWiseCalendarGrid = () => {
         <table className="min-w-full divide-y divide-gray-500">
           <thead>
             <tr>
-              <th className="px-4 py-1 text-white text-left w-24"></th>
+              <th className="px-4 py-1 text-white bg-black border-r border-gray-500 text-left w-24"></th>
               {weekDates.map((date, index) => (
                 <th
                   key={index}
-                  className={`px-4 py-1 text-white text-center ${
+                  className={`px-4 py-1 text-white bg-black border-r border-gray-500 text-center ${
                     hoveredCell.col === index ? "bg-gray-800" : ""
                   }`}
                 >
@@ -171,7 +171,7 @@ const WeekWiseCalendarGrid = () => {
                     <td
                       key={colIndex}
                       className={`px-2 py-1 border-r text-center border-gray-500 text-sm text-white relative
-                        ${isHoveredCell ? "bg-gray-800 " : ""}
+                        ${isHoveredCell ? "bg-gray-800 hover:cursor-pointer" : ""}
                         ${
                           !isHoveredCell && isHoveredColumn ? "bg-gray-800" : ""
                         }

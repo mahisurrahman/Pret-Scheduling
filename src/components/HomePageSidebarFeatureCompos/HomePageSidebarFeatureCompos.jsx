@@ -1,24 +1,89 @@
-import React from "react";
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import { TagManagementCompos } from "../TagManagementCompos/TagManagementCompos";
 
-function HomePageSidebarFeatureCompos() {
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
   return (
-    <div className="mt-4 bg-black px-4 py-4">
-      <div className="flex items-center gap-x-4">
-        <button className="text-xs px-4 py-1 rounded-sm bg-slate-800 text-white font-semibold">
-          Type Lists
-        </button>
-        <button className="text-xs px-4 py-1 rounded-sm bg-slate-800 text-white font-semibold">
-          Status
-        </button>
-        <button className="text-xs px-4 py-1 rounded-sm bg-slate-800 text-white font-semibold">
-          Checklist
-        </button>
-        <button className="text-xs px-4 py-1 rounded-sm bg-slate-800 text-white font-semibold">
-          Settings
-        </button>
-      </div>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
 
-export default HomePageSidebarFeatureCompos;
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+export default function HomePageSidebarFeatureCompos() {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <div className="mt-5">
+      <Box sx={{ width: "100%", backgroundColor: "black" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            sx={{
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#eeff41",
+              },
+              "& .MuiTab-root": {
+                color: "white",
+              },
+              "& .Mui-selected": {
+                color: "#eeff41 !important",
+              },
+            }}
+          >
+            <Tab sx={{ color: "white" }} label="Type List" {...a11yProps(0)} />
+            <Tab sx={{ color: "white" }} label="Status" {...a11yProps(1)} />
+            <Tab
+              sx={{ color: "white" }}
+              label="Checkpoints"
+              {...a11yProps(2)}
+            />
+            <Tab sx={{ color: "white" }} label="Settings" {...a11yProps(3)} />
+          </Tabs>
+        </Box>
+        <CustomTabPanel value={value} index={0}>
+          <TagManagementCompos />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          Item Two
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          Item Three
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
+          Item Four
+        </CustomTabPanel>
+      </Box>
+    </div>
+  );
+}
