@@ -4,10 +4,14 @@ import WeeklyGridStartTimeFilter from "../WeeklyGridStartTimeFilter/WeeklyGridSt
 import WeeklyGridEndTimeFilter from "../WeeklyGridEndTimeFilter/WeeklyGridEndTimeFilter";
 import CalendarGrid from "../CalendarGrid/CalendarGrid";
 
-const WeekWiseCalendarGrid = () => {
-  const [timeInterval, setTimeInterval] = useState(15);
-  const [startTime, setStartTime] = useState(9);
-  const [endTime, setEndTime] = useState(16);
+const WeekWiseCalendarGrid = ({
+  timeInterval,
+  setTimeInterval,
+  startTime,
+  setStartTime,
+  endTime,
+  setEndTime,
+}) => {
   const [hoveredCell, setHoveredCell] = useState({ row: null, col: null });
 
   const today = new Date();

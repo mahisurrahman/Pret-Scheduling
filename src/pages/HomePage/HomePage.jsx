@@ -12,6 +12,9 @@ import HomePageSidebarFeatureCompos from "../../components/HomePageSidebarFeatur
 function HomePage() {
   const [activeView, setActiveView] = useState("Week");
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [timeInterval, setTimeInterval] = useState(15);
+  const [startTime, setStartTime] = useState(9);
+  const [endTime, setEndTime] = useState(16);
 
   const handleDateSelect = (date) => {
     setSelectedDate(date);
@@ -34,7 +37,16 @@ function HomePage() {
         </div>
 
         <div className="mt-2 w-full flex items-center justify-center">
-          {activeView === "Week" && <WeekWiseCalendarGrid />}
+          {activeView === "Week" && (
+            <WeekWiseCalendarGrid
+              timeInterval={timeInterval}
+              setTimeInterval={setTimeInterval}
+              startTime={startTime}
+              setStartTime={setStartTime}
+              endTime={endTime}
+              setEndTime={setEndTime}
+            />
+          )}
         </div>
       </div>
       <div className="col-span-3">

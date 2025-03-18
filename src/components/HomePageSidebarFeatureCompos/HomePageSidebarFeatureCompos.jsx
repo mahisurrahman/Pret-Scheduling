@@ -5,6 +5,8 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { TagManagementCompos } from "../TagManagementCompos/TagManagementCompos";
 import { AllStatusesCompo } from "../AllStatusesCompo/AllStatusesCompo";
+import { AllCheckpointsManagementCompo } from "../AllCheckpointsManagementCompo/AllCheckpointsManagementCompo";
+import SettingsPanel from "../SettingsPanel/SettingsPanel";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,10 +81,10 @@ export default function HomePageSidebarFeatureCompos() {
           <AllStatusesCompo />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Three
+          <AllCheckpointsManagementCompo />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
-          Item Four
+          <SettingsPanel />
         </CustomTabPanel>
       </Box>
     </div>
