@@ -1,24 +1,20 @@
 import React from "react";
 
 function MonthWeekDayAgendaFilter({ activeView, setActiveView }) {
-  // Function to handle view change
   const handleViewChange = (view) => {
     setActiveView(view);
   };
 
-  // Function to determine button styles based on active state
   const getButtonStyles = (view) => {
     const baseStyles =
       "px-4 py-1 border rounded-sm hover:cursor-pointer transition-all duration-500 ";
 
     if (activeView === view) {
-      // Active button styles
       return (
         baseStyles +
         "bg-slate-800 text-white font-medium border-slate-800 hover:scale-105"
       );
     } else {
-      // Inactive button styles
       return baseStyles + "bg-white text-black hover:scale-105";
     }
   };

@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import WeeklyGridTimeIntervalFilter from "../WeeklyGridTimeIntervalFilter/WeeklyGridTimeIntervalFilter";
+import WeeklyGridStartTimeFilter from "../WeeklyGridStartTimeFilter/WeeklyGridStartTimeFilter";
+import WeeklyGridEndTimeFilter from "../WeeklyGridEndTimeFilter/WeeklyGridEndTimeFilter";
+import CalendarGrid from "../CalendarGrid/CalendarGrid";
 
 const WeekWiseCalendarGrid = () => {
   const [timeInterval, setTimeInterval] = useState(15);
@@ -76,121 +80,31 @@ const WeekWiseCalendarGrid = () => {
   return (
     <div className="w-full flex flex-col">
       <div className="mb-4 flex space-x-4">
-        <div>
-          <label className="block text-sm font-medium text-white">
-            Time Interval
-          </label>
-          <select
-            value={timeInterval}
-            onChange={handleIntervalChange}
-            className="mt-1 block w-full pl-3 pr-10 py-1 text-base bg-slate-800 no-scrollbar rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <option value={2}>2 Minutes</option>
-            <option value={5}>5 Minutes</option>
-            <option value={10}>10 Minutes</option>
-            <option value={15}>15 Minutes</option>
-            <option value={30}>30 Minutes</option>
-            <option value={60}>1 Hour</option>
-          </select>
-        </div>
+        <WeeklyGridTimeIntervalFilter
+          handleIntervalChange={handleIntervalChange}
+          timeIn
+          terval={timeInterval}
+        />
 
-        <div>
-          <label className="block text-sm font-medium text-white">
-            Start Time
-          </label>
-          <select
-            value={startTime}
-            onChange={handleStartTimeChange}
-            className="mt-1 block w-full pl-3 pr-10 py-1 text-base bg-slate-800 no-scrollbar rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            {Array.from({ length: 24 }, (_, i) => (
-              <option key={i} value={i}>
-                {i > 12 ? i - 12 : i} {i >= 12 ? "PM" : "AM"}
-              </option>
-            ))}
-          </select>
-        </div>
+        <WeeklyGridStartTimeFilter
+          handleStartTimeChange={handleStartTimeChange}
+          startTime={startTime}
+        />
 
-        <div>
-          <label className="block text-sm font-medium text-white">
-            End Time
-          </label>
-          <select
-            value={endTime}
-            onChange={handleEndTimeChange}
-            className="mt-1 bg-slate-800 block w-full pl-3 pr-10 py-1 text-base scrollbar rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 no-scrollbar"
-          >
-            {Array.from({ length: 24 }, (_, i) => (
-              <option key={i} value={i}>
-                {i > 12 ? i - 12 : i} {i >= 12 ? "PM" : "AM"}
-              </option>
-            ))}
-          </select>
-        </div>
+        <WeeklyGridEndTimeFilter
+          endTime={endTime}
+          handleEndTimeChange={handleEndTimeChange}
+        />
       </div>
 
       {/* Calendar Grid */}
-      <div className="border rounded border-gray-500 overflow-auto">
-        <table className="min-w-full divide-y divide-gray-500">
-          <thead>
-            <tr>
-              <th className="px-4 py-1 text-white bg-black border-r border-gray-500 text-left w-24"></th>
-              {weekDates.map((date, index) => (
-                <th
-                  key={index}
-                  className={`px-4 py-1 text-white bg-black border-r border-gray-500 text-center ${
-                    hoveredCell.col === index ? "bg-gray-800" : ""
-                  }`}
-                >
-                  {date.date} {date.day}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-500">
-            {timeSlots.map((timeSlot, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className={
-                  hoveredCell.row === rowIndex
-                    ? "bg-gray-800 text-white"
-                    : "bg-transparent text-white"
-                }
-              >
-                <td className="px-4 py-1 border-r bg-black border-gray-500 font-medium text-sm text-white">
-                  {timeSlot}
-                </td>
-                {weekDates.map((_, colIndex) => {
-                  const isHoveredCell =
-                    hoveredCell.row === rowIndex &&
-                    hoveredCell.col === colIndex;
-                  const isHoveredColumn =
-                    hoveredCell.col === colIndex && hoveredCell.row !== null;
-
-                  return (
-                    <td
-                      key={colIndex}
-                      className={`px-2 py-1 border-r text-center border-gray-500 text-sm text-white relative
-                        ${isHoveredCell ? "bg-gray-800 hover:cursor-pointer" : ""}
-                        ${
-                          !isHoveredCell && isHoveredColumn ? "bg-gray-800" : ""
-                        }
-                      `}
-                      onMouseEnter={() => handleCellHover(rowIndex, colIndex)}
-                      onMouseLeave={handleCellLeave}
-                    >
-                      {/* Show time as placeholder when hovered */}
-                      {isHoveredCell && (
-                        <span className="text-gray-200 ">{timeSlot}</span>
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <CalendarGrid
+        weekDates={weekDates}
+        handleCellHover={handleCellHover}
+        handleCellLeave={handleCellLeave}
+        hoveredCell={hoveredCell}
+        timeSlots={timeSlots}
+      />
     </div>
   );
 };

@@ -10,12 +10,11 @@ import HomePageCalenderCompo from "../../components/HomePageCalenderCompo/HomePa
 import HomePageSidebarFeatureCompos from "../../components/HomePageSidebarFeatureCompos/HomePageSidebarFeatureCompos";
 
 function HomePage() {
-  const [activeView, setActiveView] = useState("Week"); // Default to Week view
+  const [activeView, setActiveView] = useState("Week");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateSelect = (date) => {
     setSelectedDate(date);
-    // You might want to update other components based on this date
   };
 
   return (
@@ -40,7 +39,7 @@ function HomePage() {
       </div>
       <div className="col-span-3">
         <HomePageCalenderCompo onDateSelect={handleDateSelect} />
-        <HomePageSidebarFeatureCompos/>
+        <HomePageSidebarFeatureCompos />
       </div>
     </div>
   );
