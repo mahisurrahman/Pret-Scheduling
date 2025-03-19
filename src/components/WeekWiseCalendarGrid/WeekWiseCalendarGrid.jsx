@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WeeklyGridTimeIntervalFilter from "../WeeklyGridTimeIntervalFilter/WeeklyGridTimeIntervalFilter";
 import WeeklyGridStartTimeFilter from "../WeeklyGridStartTimeFilter/WeeklyGridStartTimeFilter";
 import WeeklyGridEndTimeFilter from "../WeeklyGridEndTimeFilter/WeeklyGridEndTimeFilter";
@@ -13,29 +13,72 @@ const WeekWiseCalendarGrid = ({
   setEndTime,
 }) => {
   const [hoveredCell, setHoveredCell] = useState({ row: null, col: null });
+  const [currentWeekDates, setCurrentWeekDates] = useState([]);
 
-  const today = new Date();
-  const dayOfWeek = today.getDay();
+  // Get the current date from the parent component
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // Generate week dates starting from Sunday
-  const generateWeekDates = () => {
+  // Listen for changes in selected date from parent component
+  useEffect(() => {
+    const handleSelectedDateChange = (event) => {
+      if (event && event.detail) {
+        setSelectedDate(event.detail.date);
+      }
+    };
+
+    window.addEventListener("dateSelected", handleSelectedDateChange);
+
+    // Generate week dates on mount and when selected date changes
+    generateWeekDates(new Date());
+
+    return () => {
+      window.removeEventListener("dateSelected", handleSelectedDateChange);
+    };
+  }, []);
+
+  // Generate week dates starting from Sunday of the week containing the selected date
+  const generateWeekDates = (date) => {
+    const dayOfWeek = date.getDay(); // 0 is Sunday, 1 is Monday, etc.
+    const startDate = new Date(date);
+
+    // Go back to Sunday (start of week)
+    startDate.setDate(date.getDate() - dayOfWeek);
+
     const dates = [];
-    const startDate = new Date(today);
-    // Go back to Sunday
-    startDate.setDate(today.getDate() - dayOfWeek);
-
     for (let i = 0; i < 7; i++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + i);
+      const currentDate = new Date(startDate);
+      currentDate.setDate(startDate.getDate() + i);
+
       dates.push({
-        date: date.getDate(),
-        day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][date.getDay()],
+        date: currentDate.getDate(),
+        day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
+          currentDate.getDay()
+        ],
+        fullDate: new Date(currentDate), // Keep full date for reference
       });
     }
-    return dates;
+
+    setCurrentWeekDates(dates);
   };
 
-  const weekDates = generateWeekDates();
+  // Re-generate week dates when selected date changes
+  useEffect(() => {
+    generateWeekDates(selectedDate);
+  }, [selectedDate]);
+
+  // Listen for date selection events from parent
+  useEffect(() => {
+    const handleDateSelected = (event) => {
+      if (event.detail && event.detail.date) {
+        generateWeekDates(event.detail.date);
+      }
+    };
+
+    window.addEventListener("dateSelected", handleDateSelected);
+    return () => {
+      window.removeEventListener("dateSelected", handleDateSelected);
+    };
+  }, []);
 
   // Generate time slots based on interval
   const generateTimeSlots = () => {
@@ -61,18 +104,6 @@ const WeekWiseCalendarGrid = ({
 
   const timeSlots = generateTimeSlots();
 
-  const handleIntervalChange = (e) => {
-    setTimeInterval(parseInt(e.target.value));
-  };
-
-  const handleStartTimeChange = (e) => {
-    setStartTime(parseInt(e.target.value));
-  };
-
-  const handleEndTimeChange = (e) => {
-    setEndTime(parseInt(e.target.value));
-  };
-
   const handleCellHover = (rowIndex, colIndex) => {
     setHoveredCell({ row: rowIndex, col: colIndex });
   };
@@ -83,27 +114,9 @@ const WeekWiseCalendarGrid = ({
 
   return (
     <div className="w-full flex flex-col">
-      {/* <div className="mb-4 flex space-x-4">
-        <WeeklyGridTimeIntervalFilter
-          handleIntervalChange={handleIntervalChange}
-          timeIn
-          terval={timeInterval}
-        />
-
-        <WeeklyGridStartTimeFilter
-          handleStartTimeChange={handleStartTimeChange}
-          startTime={startTime}
-        />
-
-        <WeeklyGridEndTimeFilter
-          endTime={endTime}
-          handleEndTimeChange={handleEndTimeChange}
-        />
-      </div> */}
-
       {/* Calendar Grid */}
       <CalendarGrid
-        weekDates={weekDates}
+        weekDates={currentWeekDates}
         handleCellHover={handleCellHover}
         handleCellLeave={handleCellLeave}
         hoveredCell={hoveredCell}

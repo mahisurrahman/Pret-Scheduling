@@ -1,15 +1,26 @@
 import React from "react";
 
-function BackTodayNextButtonCompo() {
+function BackTodayNextButtonCompo({ onBack, onToday, onNext }) {
   return (
-    <div className="flex items-center gap-x-2 justify-start">
-      <button className="bg-white text-black px-4 py-1 border rounded-sm hover:scale-105 duration-500 hover:duration-500 hover:cursor-pointer">
+    <div className="flex justify-start items-center space-x-2">
+      <button
+        onClick={onBack}
+        className="bg-gray-700 text-white px-3 py-1 rounded hover:bg-gray-600"
+      >
         Back
       </button>
-      <button className="bg-white text-black px-4 py-1 border rounded-sm hover:scale-105 duration-500 hover:duration-500 hover:cursor-pointer">
+
+      <button
+        onClick={onToday}
+        className="bg-gray-700 text-white px-3 py-1 rounded hover:bg-gray-600"
+      >
         Today
       </button>
-      <button className="bg-white text-black px-4 py-1 border rounded-sm hover:scale-105 duration-500 hover:duration-500 hover:cursor-pointer">
+
+      <button
+        onClick={onNext}
+        className="bg-gray-700 text-white px-3 py-1 rounded hover:bg-gray-600"
+      >
         Next
       </button>
     </div>
