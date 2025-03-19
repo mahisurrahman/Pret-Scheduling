@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 
-const SettingsPanel = () => {
-  const [startTime, setStartTime] = useState(9);
-  const [endTime, setEndTime] = useState(17);
-  const [minutesPerSlot, setMinutesPerSlot] = useState(15);
+const SettingsPanel = ({
+  setTimeInterval,
+  setStartTime,
+  setEndTime,
+  startTime,
+  endTime,
+  timeInterval,
+}) => {
   const [defaultView, setDefaultView] = useState("Week");
   const [customDays, setCustomDays] = useState({
     Sunday: true,
@@ -12,7 +16,7 @@ const SettingsPanel = () => {
     Wednesday: true,
     Thursday: true,
     Friday: true,
-    Saturday: true
+    Saturday: true,
   });
 
   const handleStartTimeChange = (e) => {
@@ -24,7 +28,7 @@ const SettingsPanel = () => {
   };
 
   const handleMinutesPerSlotChange = (e) => {
-    setMinutesPerSlot(parseInt(e.target.value));
+    setTimeInterval(parseInt(e.target.value));
   };
 
   const handleDefaultViewChange = (e) => {
@@ -32,16 +36,16 @@ const SettingsPanel = () => {
   };
 
   const handleDayToggle = (day) => {
-    setCustomDays(prev => ({
+    setCustomDays((prev) => ({
       ...prev,
-      [day]: !prev[day]
+      [day]: !prev[day],
     }));
   };
 
   const handleReset = () => {
     setStartTime(9);
     setEndTime(17);
-    setMinutesPerSlot(15);
+    setTimeInterval(15);
     setDefaultView("Week");
     setCustomDays({
       Sunday: true,
@@ -50,7 +54,7 @@ const SettingsPanel = () => {
       Wednesday: true,
       Thursday: true,
       Friday: true,
-      Saturday: true
+      Saturday: true,
     });
   };
 
@@ -59,9 +63,9 @@ const SettingsPanel = () => {
     console.log("Settings updated:", {
       startTime,
       endTime,
-      minutesPerSlot,
+      timeInterval,
       defaultView,
-      customDays
+      customDays,
     });
     // You might want to pass these values up to parent components
   };
@@ -69,7 +73,7 @@ const SettingsPanel = () => {
   return (
     <div className="bg-black text-white p-4">
       <div className="flex justify-end mb-4">
-        <button 
+        <button
           onClick={handleReset}
           className="bg-gray-800 text-white px-4 py-1 rounded hover:bg-gray-700"
         >
@@ -80,25 +84,29 @@ const SettingsPanel = () => {
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block mb-1 text-sm">Start Time (24 H Format)</label>
-          <select 
-            value={startTime} 
+          <select
+            value={startTime}
             onChange={handleStartTimeChange}
             className="w-full bg-gray-800 text-white p-2 rounded"
           >
             {[...Array(24)].map((_, i) => (
-              <option key={i} value={i}>{i}</option>
+              <option key={i} value={i}>
+                {i}
+              </option>
             ))}
           </select>
         </div>
         <div>
           <label className="block mb-1 text-sm">End Time (24 H Format)</label>
-          <select 
-            value={endTime} 
+          <select
+            value={endTime}
             onChange={handleEndTimeChange}
             className="w-full bg-gray-800 text-white p-2 rounded"
           >
             {[...Array(24)].map((_, i) => (
-              <option key={i} value={i}>{i}</option>
+              <option key={i} value={i}>
+                {i}
+              </option>
             ))}
           </select>
         </div>
@@ -106,8 +114,8 @@ const SettingsPanel = () => {
 
       <div className="mb-4">
         <label className="block mb-1 text-sm">Minutes Per Slot</label>
-        <select 
-          value={minutesPerSlot} 
+        <select
+          value={timeInterval}
           onChange={handleMinutesPerSlotChange}
           className="w-full bg-gray-800 text-white p-2 rounded"
         >
@@ -121,8 +129,8 @@ const SettingsPanel = () => {
 
       <div className="mb-4">
         <label className="block mb-1 text-sm">Default View</label>
-        <select 
-          value={defaultView} 
+        <select
+          value={defaultView}
           onChange={handleDefaultViewChange}
           className="w-full bg-gray-800 text-white p-2 rounded"
         >
@@ -136,23 +144,25 @@ const SettingsPanel = () => {
       <div className="mb-4">
         <label className="block mb-1 text-sm">Custom Days</label>
         <div className="grid grid-cols-4 gap-2">
-          {Object.keys(customDays).map(day => (
+          {Object.keys(customDays).map((day) => (
             <div key={day} className="flex items-center">
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 id={day}
                 checked={customDays[day]}
                 onChange={() => handleDayToggle(day)}
                 className="mr-2 h-4 w-4 text-blue-600"
               />
-              <label htmlFor={day} className="text-white">{day}</label>
+              <label htmlFor={day} className="text-white">
+                {day}
+              </label>
             </div>
           ))}
         </div>
       </div>
 
       <div className="flex justify-end mt-4">
-        <button 
+        <button
           onClick={handleUpdate}
           className="bg-blue-400 text-white px-4 py-1 rounded hover:bg-blue-500"
         >

@@ -51,7 +51,14 @@ function HomePage() {
       </div>
       <div className="col-span-3">
         <HomePageCalenderCompo onDateSelect={handleDateSelect} />
-        <HomePageSidebarFeatureCompos />
+        <HomePageSidebarFeatureCompos
+          setTimeInterval={setTimeInterval}
+          setStartTime={setStartTime}
+          setEndTime={setEndTime}
+          startTime={startTime}
+          endTime={endTime}
+          timeInterval={timeInterval}
+        />
       </div>
     </div>
   );

@@ -83,7 +83,7 @@ const WeekWiseCalendarGrid = ({
 
   return (
     <div className="w-full flex flex-col">
-      <div className="mb-4 flex space-x-4">
+      {/* <div className="mb-4 flex space-x-4">
         <WeeklyGridTimeIntervalFilter
           handleIntervalChange={handleIntervalChange}
           timeIn
@@ -99,7 +99,7 @@ const WeekWiseCalendarGrid = ({
           endTime={endTime}
           handleEndTimeChange={handleEndTimeChange}
         />
-      </div>
+      </div> */}
 
       {/* Calendar Grid */}
       <CalendarGrid
