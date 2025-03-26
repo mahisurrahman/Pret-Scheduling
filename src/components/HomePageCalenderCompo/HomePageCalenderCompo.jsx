@@ -1,9 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const HomePageCalenderCompo = ({ onDateSelect }) => {
+const HomePageCalenderCompo = ({
+  onDateSelect,
+  selectedDate: parentSelectedDate,
+}) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(
+    parentSelectedDate || new Date()
+  );
+
+  // Add this effect to sync with parent's selectedDate
+  useEffect(() => {
+    if (parentSelectedDate) {
+      setSelectedDate(parentSelectedDate);
+
+      // If the selected date is in a different month, update the calendar view
+      if (
+        parentSelectedDate.getMonth() !== currentDate.getMonth() ||
+        parentSelectedDate.getFullYear() !== currentDate.getFullYear()
+      ) {
+        setCurrentDate(
+          new Date(
+            parentSelectedDate.getFullYear(),
+            parentSelectedDate.getMonth(),
+            1
+          )
+        );
+      }
+    }
+  }, [parentSelectedDate, currentDate]);
 
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();

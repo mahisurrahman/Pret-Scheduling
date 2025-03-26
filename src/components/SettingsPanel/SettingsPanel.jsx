@@ -59,7 +59,6 @@ const SettingsPanel = ({
   };
 
   const handleUpdate = () => {
-    // Here you would implement the logic to save these settings
     console.log("Settings updated:", {
       startTime,
       endTime,
@@ -67,7 +66,6 @@ const SettingsPanel = ({
       defaultView,
       customDays,
     });
-    // You might want to pass these values up to parent components
   };
 
   return (
@@ -141,7 +139,7 @@ const SettingsPanel = ({
         </select>
       </div>
 
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <label className="block mb-1 text-sm">Custom Days</label>
         <div className="grid grid-cols-4 gap-2">
           {Object.keys(customDays).map((day) => (
@@ -159,7 +157,7 @@ const SettingsPanel = ({
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       <div className="flex justify-end mt-4">
         <button
