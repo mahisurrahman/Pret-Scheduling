@@ -15,10 +15,8 @@ const WeekWiseCalendarGrid = ({
   const [hoveredCell, setHoveredCell] = useState({ row: null, col: null });
   const [currentWeekDates, setCurrentWeekDates] = useState([]);
 
-  // Get the current date from the parent component
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // Listen for changes in selected date from parent component
   useEffect(() => {
     const handleSelectedDateChange = (event) => {
       if (event && event.detail) {
@@ -27,8 +25,6 @@ const WeekWiseCalendarGrid = ({
     };
 
     window.addEventListener("dateSelected", handleSelectedDateChange);
-
-    // Generate week dates on mount and when selected date changes
     generateWeekDates(new Date());
 
     return () => {
@@ -36,12 +32,9 @@ const WeekWiseCalendarGrid = ({
     };
   }, []);
 
-  // Generate week dates starting from Sunday of the week containing the selected date
   const generateWeekDates = (date) => {
-    const dayOfWeek = date.getDay(); // 0 is Sunday, 1 is Monday, etc.
+    const dayOfWeek = date.getDay(); 
     const startDate = new Date(date);
-
-    // Go back to Sunday (start of week)
     startDate.setDate(date.getDate() - dayOfWeek);
 
     const dates = [];
@@ -54,19 +47,18 @@ const WeekWiseCalendarGrid = ({
         day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
           currentDate.getDay()
         ],
-        fullDate: new Date(currentDate), // Keep full date for reference
+        fullDate: new Date(currentDate), 
       });
     }
 
     setCurrentWeekDates(dates);
   };
 
-  // Re-generate week dates when selected date changes
+
   useEffect(() => {
     generateWeekDates(selectedDate);
   }, [selectedDate]);
 
-  // Listen for date selection events from parent
   useEffect(() => {
     const handleDateSelected = (event) => {
       if (event.detail && event.detail.date) {
@@ -80,7 +72,7 @@ const WeekWiseCalendarGrid = ({
     };
   }, []);
 
-  // Generate time slots based on interval
+
   const generateTimeSlots = () => {
     const slots = [];
     const totalMinutes = (endTime - startTime) * 60;
@@ -91,7 +83,7 @@ const WeekWiseCalendarGrid = ({
       const hour = Math.floor(minutes / 60) + startTime;
       const minute = minutes % 60;
 
-      // Format time to AM/PM
+
       const period = hour >= 12 ? "PM" : "AM";
       const formattedHour = hour > 12 ? hour - 12 : hour;
       const formattedMinute = minute.toString().padStart(2, "0");
@@ -114,7 +106,6 @@ const WeekWiseCalendarGrid = ({
 
   return (
     <div className="w-full flex flex-col">
-      {/* Calendar Grid */}
       <CalendarGrid
         weekDates={currentWeekDates}
         handleCellHover={handleCellHover}
